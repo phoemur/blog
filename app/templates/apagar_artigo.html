@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+
+{% block content %}
+{% include 'flash.html' %}
+<style type="text/css">
+body {
+        padding-top: 60px;
+        padding-bottom: 40px;
+      }
+.well {
+        margin: 60px 60px;
+        text-align: center;
+        }
+</style>
+<div class="well">
+    <td><img src="{{ user.avatar(128) }}" class="img-circle"></td>
+    <h3><span class="glyphicon glyphicon-trash"></span> Apagar Artigo:</h3>
+    <h5>Titulo: {{ artigo.titulo }}</h5>
+    <h5>Autor: {{ user.nome }}</h5>
+    <form class="form" action="" method="post" name="apagar_artigo">
+      {{form.hidden_tag()}}
+    <div class="control-group">
+        <div class="controls">
+          <label class="checkbox" for="apagar">
+            {{ form.apagar }} Sim, desejo apagar este artigo definitivamente
+            
+          </label>
+        </div>    
+    </div>    
+      <div class="control-group">
+        <div class="controls">
+          <input class="btn btn-primary" type="submit" value="Apagar">
+          <a href="{{url_for('index')}}"><input class="btn btn-primary" value="Cancelar"></a>
+        </div>
+      </div>
+      </form>
+</div>
+
+{% endblock %}

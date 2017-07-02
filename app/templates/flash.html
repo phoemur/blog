@@ -1,0 +1,10 @@
+{% with messages = get_flashed_messages(with_categories=True) %}
+{% if messages %}
+{% for category, message in messages %}
+                            <div class="alert {{ category }}">
+                                <button type="button" class="close" data-dismiss="alert">&times;</button>
+                                <span class="glyphicon {{ 'glyphicon-warning-sign' if category == 'alert-danger' else 'glyphicon-info-sign' }}"></span><strong> {{ message }}</strong>
+                            </div>
+{% endfor %}
+{% endif %}
+{% endwith %}

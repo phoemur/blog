@@ -1,0 +1,190 @@
+/* move special fonts to HTML head for better performance */
+@import url('http://fonts.googleapis.com/css?family=Open+Sans:200,300,400,600,700');
+
+
+/* custom template */
+html, body {
+   height: 100%;
+   font-family:'Open Sans',arial,sans-serif;
+}
+
+a {
+  color:#222222;
+}
+
+.wrapper, .row {
+   height: 100%;
+   margin-left:0;
+   margin-right:0;
+}
+
+.wrapper:before, .wrapper:after,
+.column:before, .column:after {
+    content: "";
+    display: table;
+}
+
+.wrapper:after,
+.column:after {
+    clear: both;
+}
+
+.column {
+    height: 100%;
+    overflow: auto;
+    *zoom:1;
+}
+
+.column .padding {
+    padding: 20px;
+}
+
+.box {
+  	bottom: 0; /* increase for footer use */
+    left: 0;
+    position: absolute;
+    right: 0;
+    top: 0;
+    background-image:url('/static/img/old_plank_1024.jpg');
+    background-size:cover;
+    background-attachment:fixed;
+}
+
+.divider {
+	margin-top:32px;
+}
+
+#main {
+    background-color:#fefefe;
+}
+#main .img-circle {
+  margin-top:18px;
+  height:70px;
+  width:70px;
+}
+
+#sidebar, #sidebar a {
+    color:#ffffff;
+    background-color:transparent;
+	text-shadow:1px 0 1px #888888;
+}
+#sidebar a.logo {
+  display:block;
+  padding:3px;
+  background-color:#fff;
+  color:#777777;
+  height:40px;
+  width:40px;
+  margin:15px;
+  font-size:26px;
+  font-weight:700;
+  text-align:center;
+  text-decoration:none;
+  text-shadow:0 0 0;
+}
+#sidebar-footer {
+  position:absolute;bottom:5px;
+}
+#footer {
+  margin-bottom:20px;
+}
+
+/* center and adjust the sidebar contents on smaller devices */
+@media (max-width: 768px) {
+  #sidebar,#sidebar a.logo {
+    text-align:center;
+    margin:0 auto;
+    margin-top:30px;
+    font-size:26px;
+  }
+  #sidebar a.logo {
+    font-size:50px;
+    height:75px;
+    width:75px;
+    margin-bottom:30px;
+  }
+}
+
+
+
+
+/* bootstrap overrides */
+
+h1,h2,h3 {
+   font-weight:800;
+   font-family:'Open Sans',arial,sans-serif;
+}
+
+.jumbotron {
+  background-color:transparent;
+}
+.label-default {
+  background-color:#dddddd;
+}
+.page-header {
+  margin-top: 55px;
+  padding-top: 9px;
+  border-top:1px solid #eeeeee;
+  font-weight:700;
+  text-transform:uppercase;
+  letter-spacing:2px;
+}
+
+.col-sm-9.full {
+    width: 100%;
+}
+
+small.text-muted {
+  font-family:courier,courier-new,monospace;
+}
+
+.tab-cnt{width: 600px; height:auto; min-height: 400px; margin: 40px auto; padding: 40px; background-color: #fafafa; border: #ccc 1px dotted; overflow: auto; }
+.bg-green{ background-color: #559900;}
+.bg-red{background-color: #c9231a;}
+.tab-cnt h1{font-size: 22px; font-family: 'Open Sans',arial,sans-serif; margin-bottom: 5px;}
+.tab-tr{
+    width: 100%; height: 40px;     
+}
+.like-btn, .dislike-btn{
+    width: auto; height: 30px; padding: 0 15px 0 30px; 
+    float: left; margin-left: 10px; margin-top: 1px;
+    cursor: pointer; color: #333333; font-size: 12px; line-height: 30px;
+    border:#fff 1px solid;
+    -webkit-border-radius: 2px;-moz-border-radius: 2px;border-radius: 2px; /* border radius */
+}
+.like-btn{background: url(../img/like-ico.png) 5px 50% no-repeat; }
+.like-btn:hover, .like-h{
+    background: url(../img/like-ico-h.png) 5px 50% no-repeat; color: #0c6502;
+    background-color: #f0f0f0;  border: #c6c6c6 1px solid; 
+}
+.dislike-btn{background: url(../img/dislike-ico.png) 5px 50% no-repeat; }
+.dislike-btn:hover, .dislike-h{
+    background: url(../img/dislike-ico-h.png) 5px 50% no-repeat; color: #bc180f;
+    background-color: #f0f0f0;  border: #c6c6c6 1px solid; 
+}
+
+.stat-cnt{  width: 120px; height: 30px; float: right;}
+.stat-bar{  width: 120px; height: 3px;  margin-bottom: 5px;}
+.rate-count{ font-size: 20px; color: #333; text-align: right; font-weight: bold; }
+.stat-bar div{height: 3px; float: left;}
+.like-count{background: url(../img/like-ico2.png) 0% 50% no-repeat;}
+.dislike-count{background: url(../img/dislike-ico2.png) 0% 50% no-repeat; margin-left: 15px;}
+.like-count, .dislike-count{
+    width: auto; height: 30px; 
+    float: right; 
+    font-size: 12px; line-height: 30px; color: #666;
+    padding-left: 15px; margin-top: 10px;
+}
+
+.share-btn{
+    height: 52px; display: inline-block; 
+    float: left;  font-size: 12px; line-height: 55px; 
+    padding: 0 10px; margin-left: 30px;
+    border-bottom: #fff 3px solid;
+    cursor: pointer; 
+}
+.share-btn:hover{ border-bottom: #c9231a 3px solid; }
+.share-cnt{
+    height: 30px; padding: 20px 10px 10px 10px;
+    border-bottom: #e6e6e6 1px solid; display: none;
+}

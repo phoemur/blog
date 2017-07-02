@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+{% block content %}
+                            <!-- content -->
+                            <div class="col-sm-12" id="featured">   
+                              <div class="page-header text-muted">
+                              <h2>Categorias</h2>
+                              </div> 
+                            </div>
+                            <div class="row">    
+                              <div class="col-sm-10">
+                                <div class="well">
+                                {% for categoria in categorias %}
+                                <h4><li><i><a href="{{ url_for('cat_articles', id=categoria.id) }}">{{ categoria.nome }} ({{ categoria.artigos.count() }})</a></i></li></h4>
+                                {% endfor %}
+                                </div>
+                              </div>
+                            </div>
+{% endblock %}

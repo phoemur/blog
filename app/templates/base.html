@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="pt_br">
+    <head>
+        <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+        <meta charset="utf-8">
+        <meta name="generator" content="Bootply" />
+        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+        <meta name="author" content="Fernando B. Giannasi - out/2015">
+        
+        <link href="{{ url_for('.static', filename='css/bootstrap.min.css') }}" rel="stylesheet">
+        <link href="{{ url_for('.static', filename='css/styles.css') }}" rel="stylesheet">
+        <!--[if lt IE 9]>
+            <script src="//html5shim.googlecode.com/svn/trunk/html5.js"></script>
+        <![endif]-->
+        {% if titulo %}
+        <title>{{ titulo }}</title>
+        {% else %}
+        <title>Blog</title>
+        {% endif %}
+    </head>
+    <body>
+        <div class="wrapper">
+        <div class="box">
+            <div class="row">
+              
+                <!-- sidebar -->
+                <div class="column col-sm-3" id="sidebar">
+                    <h1>Blog do Bosta</h1>
+                    <ul class="nav">
+                        <li class="active"><a href="{{ url_for('index') }}">Home</a></li>
+                        <li><a href="{{ url_for('search') }}">Pesquisar</a></li>
+                        <li><a href="{{ url_for('categorias') }}">Categorias</a></li>
+                        <li><a href="{{ url_for('contato') }}">Contato</a></li>
+                        {% if g.user.is_authenticated %}
+                        <li><a href="{{ url_for('minhaconta') }}">Minha Conta</a></li>
+                        <li><a href="{{ url_for('logout') }}">Logout</a></li>
+                        {% else %}
+                        <li><a href="{{ url_for('register') }}">Cadastre-se</a></li>
+                        <li><a href="{{ url_for('login') }}">Login</a></li>
+                        {% endif %}
+                    </ul>
+                    <ul class="nav hidden-xs" id="sidebar-footer">
+                        <a href="{{ url_for('recent_feed') }}" rel="alternate" title="Atom Feed" type="application/atom+xml"><img src="{{ url_for('.static', filename='img/rss.png') }}" alt="Feed" style="width:30px;height:30px;margin: 0px 0px;"></a>
+                        <a href=""><img src="{{ url_for('.static', filename='img/facebook.png') }}" alt="Face" style="width:30px;height:30px;margin: 0px 0px;"></a>
+                        <a href=""><img src="{{ url_for('.static', filename='img/googleplus.png') }}" alt="G+" style="width:30px;height:30px;margin: 0px 0px;"></a>
+                        <a href=""><img src="{{ url_for('.static', filename='img/linkedin.png') }}" alt="Linkedin" style="width:30px;height:30px;margin: 0px 0px;"></a>
+                        <a href=""><img src="{{ url_for('.static', filename='img/github.png') }}" alt="Git" style="width:30px;height:30px;margin: 0px 0px;"></a>
+                        <a href=""><img src="{{ url_for('.static', filename='img/twitter.png') }}" alt="Twitter" style="width:30px;height:30px;margin: 0px 0px;"></a>
+                        <br>
+                    </ul>
+                </div>
+                <!-- /sidebar -->
+                
+                <!-- main -->
+                <div class="column col-sm-9" id="main">
+                    <div class="padding">
+                        <div class="full col-sm-9">
+                        <a name="start"></a>
+                        {% include 'flash.html' %}
+                        {% block content %}
+                        {% endblock %}
+                        </div>
+                        <div class="row" id="footer">    
+                            <div class="col-sm-12">    
+                              <ul class="pager" role="tablist">
+                                <li class="next" role="presentation"><a href="#start">Voltar ao Topo</a></li>
+                              </ul>
+                              <h6><small>Página gerada em {{ g.request_time() }} segundos</small></h6>
+                            </div>
+                        </div>
+                </div></div>
+                </div><!-- /col-9 -->
+                </div><!-- /padding -->
+                <!-- /main -->
+                </div>
+        
+    <!-- script references -->
+    {{ moment.include_jquery() }}
+    {{ moment.include_moment() }}
+    {{ moment.lang("pt-br") }}
+    <script src="{{ url_for('.static', filename='js/bootstrap.min.js') }}"></script>
+    <script src="{{ url_for('.static', filename='js/sijax/sijax.js') }}"></script>
+    <script type="text/javascript">{{ g.sijax.get_js()|safe }}</script>
+    </body>
+</html>

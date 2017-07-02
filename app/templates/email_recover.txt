@@ -1,0 +1,12 @@
+Prezado Senhor(a) {{ user.nome }},
+
+Sua senha temporaria para o site da ARLS Loja Maconica Fraternidade Avareense:
+
+{{ nova_senha }}
+
+
+Solicitamos a gentileza de troca-la assim que fizer o login.
+
+TFA
+
+Equipe Fraternidade Avareense

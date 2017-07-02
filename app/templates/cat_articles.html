@@ -1,0 +1,65 @@
+{% extends "base.html" %}
+{% block content %}
+                            <!-- content -->
+                            <div class="col-sm-12" id="featured">   
+                              <div class="page-header text-muted">
+                              <h2>Artigos na categoria {{ cat.nome }}</h2>
+                              </div> 
+                            </div>
+                            <!--/stories-->
+                            {% for artigo in artigos.items %}                         
+                            <div class="row">    
+                              <div class="col-sm-10">
+                                <a href="{{ url_for('read_artigo', id=artigo.id) }}"><h2>{{ artigo.titulo }}</h2></a>
+                                <h5><i>Publicado por:</i> <span class="label label-primary"><a href="{{ url_for('usuario', id=artigo.author.id) }}">{{ artigo.author.nome }}</a></span><i class="text-muted"> nas categorias: {% for cat in artigo.categorias %} <a href="{{ url_for('cat_articles', id=cat.id) }}">{{ cat.nome }}</a>{{ ', ' if not cat == artigo.categorias[-1] else '.'}} {% endfor %}</i></h5>
+                                <h4><span class="glyphicon glyphicon-time"></span><small class="text-muted">{{ moment(artigo.data).format('DD/MM/YYYY HH:mm') }}h</small>
+                                <i><small class="text-muted"> • Visualizações: {{ artigo.visitors }}</small></i></h4>
+                              </div>
+                              <div class="col-sm-2">
+                                <a href="{{ url_for('usuario', id=artigo.author.id) }}" class="pull-right"><img src="{{ artigo.author.avatar(128) }}" class="img-circle"></a>
+                                <h4><a href="{{ url_for('read_artigo', id=artigo.id) }}#comments" class="pull-right"><small> <span class="label label-success">{{ artigo.com_quantidade }} Comentário{{ 's' if artigo.com_quantidade != 1 else '' }}</span></small></a></h4>
+                              </div> 
+                            </div>
+                            {% if artigo.abstract %}<p>{{ artigo.abstract }}</p>{% endif %}
+                            <ul class="pager" role="tablist">
+                              <li class="previous" role="presentation"><a href="{{ url_for('read_artigo', id=artigo.id) }}">Leia Mais</a></li>
+                            </ul>
+                            {% if g.user.is_authenticated %}
+                            <div class="tab-tr" id="t1">
+                                <div class="like-btn " href="javascript://" onclick="Sijax.request('like_artigo', [ {{ artigo.id }}, {{g.user.id }} ]);">Curtir</div>
+                                <div class="dislike-btn " href="javascript://" onclick="Sijax.request('dislike_artigo', [ {{ artigo.id }}, {{g.user.id }} ]);">Descurtir</div>
+                                <div class="stat-cnt">
+                                    <div class="dislike-count" id="dislike_artigo{{ artigo.id }}">{{ artigo.user_disliked.all().__len__() }}</div>
+                                    <div class="like-count" id="like_artigo{{ artigo.id }}">{{ artigo.user_liked.all().__len__() }}</div>
+                                </div><!-- /stat-cnt -->
+                            </div><!-- /tab-tr -->
+                            {% else %}
+                            
+                            <div class="tab-tr" id="t1">
+                                <div class="like-btn " href="javascript://" onclick="alert('Faça o Login para Curtir');">Curtir</div>
+                                <div class="dislike-btn " href="javascript://" onclick="alert('Faça o Login para Descurtir');">Descurtir</div>
+                                <div class="stat-cnt">
+                                    <div class="dislike-count" id="dislike_artigo{{ artigo.id }}">{{ artigo.user_disliked.all().__len__() }}</div>
+                                    <div class="like-count" id="like_artigo{{ artigo.id }}">{{ artigo.user_liked.all().__len__() }}</div>
+                                </div><!-- /stat-cnt -->
+                            </div><!-- /tab-tr -->                     
+                            {% endif %}
+                            <hr>
+                            
+                            {% endfor %}
+                            
+                            <ul class="pager" role="tablist">
+                            {% if artigos.has_prev %}                     
+                                <li class="previous" role="presentation"><a href="{{ url_for('cat_articles', id=cat.id, page=artigos.prev_num) }}">&lt;&lt; Artigos mais novos</a></li>
+                            {% else %}
+                                <li class="previous disabled" role="presentation"><a>&lt;&lt; Artigos mais novos</a></li>
+                            {% endif %}
+                            
+                            {% if artigos.has_next %}
+                              <li class="next" role="presentation"><a href="{{ url_for('cat_articles', id=cat.id, page=artigos.next_num) }}">Artigos mais velhos &gt;&gt;</a></li>
+                            {% else %}
+                              <li class="next disabled" role="presentation"><a>Artigos mais velhos &gt;&gt;</a></li>
+                            {% endif %}
+                            </ul>
+                            <hr>                                         
+{% endblock %}

@@ -1,0 +1,88 @@
+{% extends "base.html" %}
+
+{% block content %}
+                            <div class="row">    
+                              <div class="col-sm-10">
+                                <a href="{{ url_for('read_artigo', id=artigo.id) }}"><h2>{{ artigo.titulo }}</h2></a>
+                                <h5><i>Publicado por:</i> <span class="label label-primary"><a href="{{ url_for('usuario', id=artigo.author.id) }}">{{ artigo.author.nome }}</a></span><i class="text-muted"> nas categorias: {% for cat in artigo.categorias %} <a href="{{ url_for('cat_articles', id=cat.id) }}">{{ cat.nome }}</a>{{ ', ' if not cat == artigo.categorias[-1] else '.'}} {% endfor %}</i></h5>
+                                <h4><span class="glyphicon glyphicon-time"></span><small class="text-muted">{{ moment(artigo.data).format('DD/MM/YYYY HH:mm') }}h</small>
+                                <i><small class="text-muted"> • Visualizações: {{ artigo.visitors }}</small></i></h4>
+                              </div>
+                              <div class="col-sm-2">
+                                <a href="{{ url_for('usuario', id=artigo.author.id) }}" class="pull-right"><img src="{{ artigo.author.avatar(128) }}" class="img-circle"></a>
+                                <h4><a href="{{ url_for('read_artigo', id=artigo.id) }}#comments" class="pull-right"><small> <span class="label label-success">{{ artigo.com_quantidade }} Comentário{{ 's' if artigo.com_quantidade != 1 else '' }}</span></small></a></h4>
+                              </div> 
+                            
+                            {% if g.user.is_authenticated and g.user.id == artigo.author.id %}
+                            <ul class="pager" role="tablist">
+                              <li class="next" role="presentation"><a href="{{ url_for('apagar_artigo', id=artigo.id) }}"> Apagar este artigo</a></li>
+                              <li class="next" role="presentation"><a href="{{ url_for('editar_artigo', id=artigo.id) }}">Editar este artigo</a></li>
+                            </ul>
+                            {% endif %}
+                            </div>
+                            {% if g.user.is_authenticated %}
+                            <div class="tab-tr" id="t1">
+                                <div class="like-btn " href="javascript://" onclick="Sijax.request('like_artigo', [ {{ artigo.id }}, {{g.user.id }} ]);">Curtir</div>
+                                <div class="dislike-btn " href="javascript://" onclick="Sijax.request('dislike_artigo', [ {{ artigo.id }}, {{g.user.id }} ]);">Descurtir</div>
+                                <div class="stat-cnt">
+                                    <div class="dislike-count" id="dislike_artigo{{ artigo.id }}">{{ artigo.user_disliked.all().__len__() }}</div>
+                                    <div class="like-count" id="like_artigo{{ artigo.id }}">{{ artigo.user_liked.all().__len__() }}</div>
+                                </div><!-- /stat-cnt -->
+                            </div><!-- /tab-tr -->
+                            {% else %}
+                            
+                            <div class="tab-tr" id="t1">
+                                <div class="like-btn " href="javascript://" onclick="alert('Faça o Login para Curtir');">Curtir</div>
+                                <div class="dislike-btn " href="javascript://" onclick="alert('Faça o Login para Descurtir');">Descurtir</div>
+                                <div class="stat-cnt">
+                                    <div class="dislike-count" id="dislike_artigo{{ artigo.id }}">{{ artigo.user_disliked.all().__len__() }}</div>
+                                    <div class="like-count" id="like_artigo{{ artigo.id }}">{{ artigo.user_liked.all().__len__() }}</div>
+                                </div><!-- /stat-cnt -->
+                            </div><!-- /tab-tr -->                     
+                            {% endif %}
+                            <hr>
+                            {% filter markdown %}
+                            {{ texto }}
+                            {% endfilter %}
+                            <hr>
+                            <h3><a name="comments"></a>{{ artigo.com_quantidade }} Comentário{{ 's' if artigo.com_quantidade != 1 else '' }}</h3>
+                            <hr>
+                            {% include 'comment.html' %}
+                            <hr>
+                            {% if g.user.is_authenticated %}
+                              <img src="{{ g.user.avatar(128) }}" class="img-circle">
+                                <form class="form" action="" method="post" name="comentario">
+                                  {{form.hidden_tag()}}
+                                <div class="control-group{% if form.errors.texto %} error{% endif %}">
+                                <label class="control-label" for="texto">Comentar:</label>
+                                  <div class="controls">
+                                    {{ form.texto(cols=64, rows=8) }}
+                                    {% for error in form.errors.texto %}
+                                      <br><span class="help-inline" style="color: red;">[{{error}}]</span>
+                                    </br>
+                                    {% endfor %}
+                                  </div>
+                                <div id="capatcha">
+                                  <div class="control-group">
+                                    <div class="controls">
+                                      <label class="checkbox" for="contato">
+                                        {{ form.recaptcha(margin = '0 auto', display=block) }}
+                                          {% for error in form.errors.recaptcha %}
+                                          <br><span class="help-inline" style="color: red;">[Erro de Validação]</span>
+                                        </br>
+                                          {% endfor %}
+                                      </label>
+                                    </div>
+                                  </div>
+                                </div>
+                              <div class="control-group">
+                                <div class="controls">
+                                  <input class="btn btn-primary" type="submit" value="Enviar">
+                                </div>
+                              </div>
+                              </div>
+                              </form>
+                            {% else %}
+                            <h4>Faça o <a href="{{ url_for('login') }}">Login</a> para comentar</h4>
+                            {% endif %}
+{% endblock %}

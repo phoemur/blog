@@ -1,0 +1,92 @@
+{% extends "base.html" %}
+
+{% block content %}
+{% include 'flash.html' %}
+<style type="text/css">
+body {
+        padding-top: 60px;
+        padding-bottom: 40px;
+      }
+.well {
+        margin: 60px 60px;
+        text-align: center;
+        }
+</style>
+
+<div class="well">
+      {% if g.user.is_authenticated %}
+        <td><img src="{{ user.avatar(128) }}" class="img-circle"></td>
+      {% endif %}
+      <h3>Edição de Artigo</h3>
+      <h5> Nesta área você pode editar os artigos de sua autoria</h5>
+      <form class="form" action="" method="post" name="editar_arquivo">
+        {{form.hidden_tag()}}
+        <div class="control-group{% if form.errors.titulo %} error{% endif %}">
+        <label class="control-label" for="titulo">Título:</label>
+          <div class="controls">
+            {{ form.titulo(size = 64, class = "span4") }}
+            {% for error in form.errors.titulo %}
+              <br><span class="help-inline" style="color: red;">[{{error}}]</span>
+              </br>
+            {% endfor %}
+          </div>
+          <label class="control-label" for="categoria">Categoria:</label>
+          <h6>*Entre as categorias do Artigo, separadas por vírgula</h6>
+          <div class="controls">
+            {{ form.categoria(size = 64, class = "span4") }}
+            {% for error in form.errors.categoria %}
+              <br><span class="help-inline" style="color: red;">[{{error}}]</span>
+              </br>
+            {% endfor %}
+          </div>
+        <div class="control-group{% if form.errors.desc %} error{% endif %}">
+        <label class="control-label" for="desc">Descrição:</label>
+          <div class="controls">
+            {{ form.desc(size = 64, class = "span4") }}
+            {% for error in form.errors.desc %}
+              <br><span class="help-inline" style="color: red;">[{{error}}]</span>
+              </br>
+            {% endfor %}
+          </div>
+        </div>
+        <div class="control-group{% if form.errors.texto %} error{% endif %}">
+        <label class="control-label" for="texto">Artigo:</label>
+          <div class="controls">
+            {{ form.texto(only_input=True, cols=64, rows=8) }}
+            {% for error in form.errors.texto %}
+              <br><span class="help-inline" style="color: red;">[{{error}}]</span>
+              </br>
+            {% endfor %}
+          </div>
+        </div>
+        <style>
+        .capatcha {
+          text-align: center;
+         }
+        .g-recaptcha {
+          display: inline-block;
+         }
+        </style>
+        <div id="capatcha">
+        <div class="control-group">
+          <div class="controls">
+            <label class="checkbox" for="contato">
+              {{ form.recaptcha(margin = '0 auto', display=block) }}
+              {% for error in form.errors.recaptcha %}
+                <br><span class="help-inline" style="color: red;">[Erro de Validação]</span>
+                </br>
+              {% endfor %}
+            </label>
+          </div>
+        </div>
+        </div>
+        <div class="control-group">
+        <div class="controls">
+          <input class="btn btn-primary" type="submit" value="Enviar">
+          <a href="{{url_for('index')}}"><input class="btn btn-primary" value="Cancelar"></a>
+        </div>
+      </div>
+      </form>
+      </div>
+</div>
+{% endblock %}

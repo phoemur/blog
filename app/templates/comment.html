@@ -1,0 +1,27 @@
+{% for comentario in comentarios recursive %}
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-sm-11 {{ 'col-sm-offset-{}'.format(comentario.nest_level) }}">
+      <a href="{{ url_for('usuario', id=comentario.author.id) }}"><img src="{{ comentario.author.avatar(128) }}" class="img-circle"></a>
+      <span class="label label-primary"><a href="{{ url_for('usuario', id=comentario.author.id) }}"> {{ comentario.author.nome }} </a></span><i> comentou isso em {{ moment(comentario.data).format('DD/MM/YYYY HH:mm') }}h:</i>
+      {% if g.user == comentario.author %}<span class="glyphicon glyphicon-trash"></span><a href="{{ url_for('apagar_comentario', id_art=artigo.id, id_com=comentario.id) }}">Apagar comentário</a>{% endif %}
+      
+      {% if g.user.is_authenticated %}
+      <div class="dislike-btn pull-right" id="dislike_coment{{ comentario.id }}" href="javascript://" onclick="Sijax.request('dislike_comentario', [ {{ comentario.id }}, {{g.user.id }} ]);">{{ comentario.negative }}</div>
+      <div class="like-btn pull-right" id="like_coment{{ comentario.id }}" href="javascript://" onclick="Sijax.request('like_comentario', [ {{ comentario.id }}, {{g.user.id }} ]);">{{ comentario.positive }}</div>
+      {% else %}
+      <div class="dislike-btn pull-right" id="dislike_coment{{ comentario.id }}" href="javascript://" onclick="alert('Faça o Login para Descurtir');">{{ comentario.negative }}</div>
+      <div class="like-btn pull-right" id="like_coment{{ comentario.id }}" href="javascript://" onclick="alert('Faça o Login para Curtir');">{{ comentario.positive }}</div>
+      {% endif %}
+      <p>{{ comentario.texto }}</p>
+      {% if g.user.is_authenticated %}
+      <h6><a href="javascript://" onclick='$("#texto").val("@[responder_comentario@{{ comentario.id }}@]");$("#texto").focus();'>Responder a este comentário</a> • <a href="javascript://" onclick="Sijax.request('like_comentario', [ {{ comentario.id }}, {{g.user.id }} ]);">Curtir</a> • <a href="javascript://" onclick="Sijax.request('dislike_comentario', [ {{ comentario.id }}, {{g.user.id }} ]);">Descurtir</a></h6>
+      {% else %}
+      <h6><a href="javascript://" onclick='$("#texto").val("@[responder_comentario@{{ comentario.id }}@]");$("#texto").focus();'>Responder a este comentário</a> • <a href="javascript://" onclick="alert('Faça o Login para Curtir');">Curtir</a> • <a href="javascript://" onclick="alert('Faça o Login para Descurtir');">Descurtir</a></h6>
+      {% endif %}
+    </div>
+  </div>
+</div>
+{% if comentario.children %}{{ loop(comentario.children) }}{% endif %}
+{% endfor %} 
+

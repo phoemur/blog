@@ -1,0 +1,4 @@
+# Commands to init your postgres database if you want. By default it uses sqlite
+#CREATE USER blog WITH PASSWORD 'senhadebosta';
+#CREATE DATABASE blog;
+#GRANT ALL PRIVILEGES ON DATABASE blog to blog;

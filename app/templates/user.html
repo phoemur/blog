@@ -1,0 +1,48 @@
+{% extends "base.html" %}
+{% block content %}
+<style type="text/css">
+body {
+        padding-top: 60px;
+        padding-bottom: 40px;
+      }
+.well {
+        margin: 60px 60px;
+        text-align: center;
+        }
+</style>
+<div class="well">
+    <table>
+      <tr valign="top">
+          <td><img src="{{ user.avatar(128) }}" class="img-circle"></td>
+          <td><a href="{{ url_for('usuario', id=user.id) }}"><h2>{{ user.nome }}</h2></a>
+          {% if user.about_me %}<p>{{ user.about_me }}</p>{% endif %}
+          {% if user.registered_on %}<p><span class="glyphicon glyphicon-time"></span><i>Usuário registrado em: {{ moment(user.registered_on).format('DD/MM/YYYY HH:mm') }}h</i></p>{% endif %}
+          {% if user.last_seen %}<p><span class="glyphicon glyphicon-time"></span><i>Último Login: {{ moment(user.last_seen).format('DD/MM/YYYY HH:mm') }}h</i></p>{% endif %}
+          {% if user.id == g.user.id %}
+            <ul class="pager" role="tablist">
+              <li class="next" role="presentation"><a href="{{ url_for('edit') }}">Editar Perfil e Senha</a></li>
+              <li class="next" role="presentation"><a href="{{ url_for('apagar') }}">Apagar Minha Conta</a></li>
+              {% if user.email in admins %}
+              <li class="next" role="presentation"><a href="{{ url_for('escrever') }}">Escrever um Artigo</a></li>
+              {% endif %}
+            </ul>
+          {% endif %}
+        </td>
+      </tr>
+    </table>
+    <hr>
+    <h4>Artigos publicados por <a href="{{ url_for('usuario', id=user.id) }}">{{ user.nome }}</a></h4>
+    <hr>
+    {% for artigo in artigos %}   
+      <table>
+        <tr valign="top">
+          <td><img src="{{ artigo.author.avatar(128) }}" class="img-circle"></td>
+          <td><span class="label label-primary"><a href="{{ url_for('usuario', id=artigo.author.id) }}">{{ artigo.author.nome }}</a></span><i> publicou em {{ moment(artigo.data).format('DD/MM/YYYY HH:mm') }}h</i><br>
+          <h4><a href="{{ url_for('read_artigo', id=artigo.id) }}"><strong>{{ artigo.titulo }}</strong></a></h4>
+          <i> Categorias: {% for cat in artigo.categorias %} <a href="{{ url_for('cat_articles', id=cat.id) }}">{{ cat.nome }}</a>{{ ', ' if not cat == artigo.categorias[-1] else '.'}} {% endfor %}</i></td>
+        </tr>
+      </table>
+      <hr>
+    {% endfor %}
+</div>
+{% endblock %}

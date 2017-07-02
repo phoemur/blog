@@ -1,0 +1,111 @@
+{% extends "base.html" %}
+
+{% block content %}
+<script src='https://www.google.com/recaptcha/api.js'></script>
+<style type="text/css">
+body {
+        padding-top: 60px;
+        padding-bottom: 40px;
+      }
+.well {
+        margin: 60px 60px;
+        text-align: center;
+        }
+</style>
+<div class="well">
+    <h3>Cadastramento de Usuários</h3>
+    <form class="form" action="" method="post" name="register">
+      {{form.hidden_tag()}}
+      
+      <div class="control-group{% if form.errors.nome %} error{% endif %}">
+        <label class="control-label" for="nome">Nome completo:</label>
+          <div class="controls">
+            {{ form.nome(size = 32, class = "span4") }}
+            {% for error in form.errors.nome %}
+              <br><span class="help-inline" style="color: red;">[{{error}}]</span>
+              </br>
+            {% endfor %}
+          </div>
+      </div>
+      <div class="control-group{% if form.errors.email %} error{% endif %}">
+        <label class="control-label" for="email">Email de Login:</label>
+          <div class="controls">
+            {{ form.email(size = 32, class = "span4") }}
+            {% for error in form.errors.email %}
+              <br><span class="help-inline" style="color: red;">[{{error}}]</span>
+              </br>
+            {% endfor %}
+          </div>
+      </div>
+      <div class="control-group{% if form.errors.confirm_email %} error{% endif %}">
+        <label class="control-label" for="confirm_email">Confirme o Email:</label>
+          <div class="controls">
+            {{ form.confirm_email(size = 32, class = "span4") }}
+            {% for error in form.errors.confirm_email %}
+              <br><span class="help-inline" style="color: red;">[{{error}}]</span>
+              </br>
+            {% endfor %}
+          </div>
+      </div>
+      <div class="control-group{% if form.errors.senha %} error{% endif %}">
+        <label class="control-label" for="senha">Senha:</label>
+          <div class="controls">
+            {{ form.senha(size = 32, class = "span4") }}
+            {% for error in form.errors.senha %}
+              <br><span class="help-inline" style="color: red;">[{{error}}]</span>
+              </br>
+            {% endfor %}
+          </div>
+      </div>
+      <div class="control-group{% if form.errors.confirm %} error{% endif %}">
+        <label class="control-label" for="confirm">Confirme a Senha:</label>
+          <div class="controls">
+            {{ form.confirm(size = 32, class = "span4") }}
+            {% for error in form.errors.confirm %}
+              <br><span class="help-inline" style="color: red;">[{{error}}]</span>
+              </br>
+            {% endfor %}
+          </div>
+      </div>
+      <div class="control-group{% if form.errors.about_me %} error{% endif %}">
+        <label class="control-label" for="about_me">Informações Sobre:</label>
+          <div class="controls">
+            {{ form.about_me(cols=32, rows=4) }}
+            {% for error in form.errors.about_me %}
+              <br><span class="help-inline" style="color: red;">[{{error}}]</span>
+              </br>
+            {% endfor %}
+          </div>
+      </div>
+      <h5>*Para adicionar uma foto (Avatar), cadastre seu e-mail no site <a href="http://www.gravatar.com">gravatar</a></h5>
+      <style>
+        .capatcha {
+          text-align: center;
+         }
+        .g-recaptcha {
+          display: inline-block;
+         }
+      </style>
+      <div id="capatcha">
+      <div class="control-group">
+        <div class="controls">
+          <label class="checkbox" for="register">
+            {{ form.recaptcha(margin = '0 auto', display=block) }}
+            {% for error in form.errors.recaptcha %}
+              <br><span class="help-inline" style="color: red;">[Erro de Validação]</span>
+              </br>
+            {% endfor %}
+          </label>
+        </div>
+      </div>
+      </div>
+      
+      <div class="control-group">
+        <div class="controls">
+          <input class="btn btn-primary" type="submit" value="Cadastrar">
+          <a href="{{url_for('index')}}"><input class="btn btn-primary" value="Cancelar"></a>
+        </div>
+      </div>
+      </form>
+</div>
+{% endblock %}
