@@ -1,5 +1,6 @@
 # blog
 Example of a blog engine with Python and Flask
+First you create database with db_create.py, then run.py
 
 # packages used
 
