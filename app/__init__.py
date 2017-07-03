@@ -1,12 +1,12 @@
 # -*- coding: utf-8 -*-
 
 from flask import Flask
-from flask.ext.sqlalchemy import SQLAlchemy
-from flask.ext.login import LoginManager
-from flask.ext.mail import Mail
-from flask.ext.misaka import Misaka
-from flask.ext.moment import Moment
-from flask.ext.pagedown import PageDown
+from flask_sqlalchemy import SQLAlchemy
+from flask_login import LoginManager
+from flask_mail import Mail
+from flask_misaka import Misaka
+from flask_moment import Moment
+from flask_pagedown import PageDown
 import flask_admin as admin
 from flask_admin.contrib import sqla
 from flask_admin import helpers, expose
