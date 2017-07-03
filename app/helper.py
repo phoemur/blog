@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-from flask.ext.mail import Message
+from flask_mail import Message
 from app import app, mail
 from .decorators import async
 
