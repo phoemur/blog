@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 
-from flask.ext.wtf import Form, RecaptchaField
+from flask_wtf import Form, RecaptchaField
 from wtforms import StringField, BooleanField, PasswordField, TextAreaField
-from flask.ext.pagedown.fields import PageDownField
+from flask_pagedown.fields import PageDownField
 from wtforms.validators import DataRequired, Email, EqualTo, Length
 from .models import User
 
