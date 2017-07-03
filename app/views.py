@@ -9,7 +9,7 @@ from time import time
 import re
 
 from flask import render_template, flash, redirect, session, url_for, request, g, abort
-from flask.ext.login import login_user, logout_user, current_user, login_required
+from flask_login import login_user, logout_user, current_user, login_required
 from app import app, db, lm
 from .forms import LoginForm, RegisterForm, EditForm, EraseForm, RecoverForm, ContactForm, EscreverArtigo, ComentarArtigo, SearchForm
 from .models import User, Artigo, Comentario, Categoria, iterativeChildren
@@ -17,7 +17,7 @@ from werkzeug.security import generate_password_hash, check_password_hash
 from werkzeug.contrib.atom import AtomFeed
 from .helper import send_email
 from jinja2 import Markup
-from flask.ext.sqlalchemy import get_debug_queries
+from flask_sqlalchemy import get_debug_queries
 import flask_admin as admin
 from flask_admin.contrib import sqla
 from flask_admin import helpers, expose
