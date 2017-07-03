@@ -2,7 +2,7 @@
 
 from hashlib import md5
 from app import app, db
-import flask.ext.whooshalchemy as whooshalchemy
+import flask_whooshalchemy as whooshalchemy
 from werkzeug.security import generate_password_hash, check_password_hash
 
 categorias_table = db.Table('categorias_table',
