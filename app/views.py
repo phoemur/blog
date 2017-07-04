@@ -461,7 +461,7 @@ def read_artigo(id):
     if form.validate_on_submit():
         if '@[responder_comentario@' in form.texto.data:
             parent = int(form.texto.data.split('@')[2])
-            texto = form.texto.data.split('@')[3].lstrip(']')
+            texto = re.sub('@.*?@\d+?@]', '', form.texto.data)
         else:
             parent = None
             texto = form.texto.data
