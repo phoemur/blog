@@ -16,8 +16,10 @@ body {
           <td><img src="{{ user.avatar(128) }}" class="img-circle"></td>
           <td><a href="{{ url_for('usuario', id=user.id) }}"><h2>{{ user.nome }}</h2></a>
           {% if user.about_me %}<p>{{ user.about_me }}</p>{% endif %}
-          {% if user.registered_on %}<p><span class="glyphicon glyphicon-time"></span><i>Usuário registrado em: {{ moment(user.registered_on).format('DD/MM/YYYY HH:mm') }}h</i></p>{% endif %}
-          {% if user.last_seen %}<p><span class="glyphicon glyphicon-time"></span><i>Último Login: {{ moment(user.last_seen).format('DD/MM/YYYY HH:mm') }}h</i></p>{% endif %}
+          <p>{% if user.registered_on %}<span class="glyphicon glyphicon-time"></span><i>Usuário registrado em: {{ moment(user.registered_on).format('DD/MM/YYYY HH:mm') }}h</i>{% endif %}
+          {% if user.last_seen %}<i>  -  Último Login: {{ moment(user.last_seen).format('DD/MM/YYYY HH:mm') }}h</i>{% endif %}</p>
+          <p><span class="glyphicon glyphicon-pencil"></span><i> {{ user.art_quantidade }} Artigo{{ 's' if user.art_quantidade != 1 else '' }}</i></p>
+          <p><span class="glyphicon glyphicon-pencil"></span><i> {{ user.com_quantidade }} Comentário{{ 's' if user.com_quantidade != 1 else '' }}</i></p>
           {% if user.id == g.user.id %}
             <ul class="pager" role="tablist">
               <li class="next" role="presentation"><a href="{{ url_for('edit') }}">Editar Perfil e Senha</a></li>
@@ -39,7 +41,7 @@ body {
           <td><img src="{{ artigo.author.avatar(128) }}" class="img-circle"></td>
           <td><span class="label label-primary"><a href="{{ url_for('usuario', id=artigo.author.id) }}">{{ artigo.author.nome }}</a></span><i> publicou em {{ moment(artigo.data).format('DD/MM/YYYY HH:mm') }}h</i><br>
           <h4><a href="{{ url_for('read_artigo', id=artigo.id) }}"><strong>{{ artigo.titulo }}</strong></a></h4>
-          <i> Categorias: {% for cat in artigo.categorias %} <a href="{{ url_for('cat_articles', id=cat.id) }}">{{ cat.nome }}</a>{{ ', ' if not cat == artigo.categorias[-1] else '.'}} {% endfor %}</i></td>
+          <i> Categorias: {% for cat in artigo.categorias %} <a href="{{ url_for('cat_articles', id=cat.id) }}">{{ cat.nome }}</a> {% endfor %}</i></td>
         </tr>
       </table>
       <hr>

@@ -61,11 +61,19 @@ class User(db.Model):
         return self.id
 
     def avatar(self, size):
-        return 'http://www.gravatar.com/avatar/%s?d=identicon&s=%d' % (md5(self.email).hexdigest(), size)
+        return 'http://www.gravatar.com/avatar/{}?d=identicon&s={}'.format(md5(self.email.encode('UTF-8')).hexdigest(), size)
     
     def check_password(self, password):
         return check_password_hash(self.senha, password) or check_password_hash(self.temp_senha, password)
 
+    @property
+    def art_quantidade(self):
+        return Artigo.query.filter_by(author=self).count()
+    
+    @property
+    def com_quantidade(self):
+        return Comentario.query.filter_by(author=self).count()
+    
     def __repr__(self):
         return '<User {}>'.format(self.email)
 
